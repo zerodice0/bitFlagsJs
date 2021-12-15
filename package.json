@@ -1,0 +1,21 @@
+{
+  "name": "bitflagsjs",
+  "version": "1.0.0",
+  "description": "managing bit flags by javascript.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zerodice0/bitFlagsJs.git"
+  },
+  "keywords": [
+    "bits",
+    "flags",
+    "javascript"
+  ],
+  "author": "zerodice0",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zerodice0/bitFlagsJs/issues"
+  },
+  "homepage": "https://github.com/zerodice0/bitFlagsJs#readme"
+}
