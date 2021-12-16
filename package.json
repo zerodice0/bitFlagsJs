@@ -1,8 +1,8 @@
 {
   "name": "bitflagsjs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "managing bit flags by javascript.",
-  "main": "index.js",
+  "main": "bitFlagsJs.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/zerodice0/bitFlagsJs.git"
