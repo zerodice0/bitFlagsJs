@@ -1,8 +1,17 @@
 {
   "name": "bitflagsjs",
-  "version": "1.0.2",
-  "description": "managing bit flags by javascript.",
-  "main": "bitFlagsJs.js",
+  "version": "2.0.0",
+  "description": "managing bit flags by javascript and typescript.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "prepare": "npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "files": [
+    "dist"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/zerodice0/bitFlagsJs.git"
@@ -10,7 +19,8 @@
   "keywords": [
     "bits",
     "flags",
-    "javascript"
+    "javascript",
+    "typescript"
   ],
   "author": "zerodice0",
   "license": "MIT",

@@ -1,6 +1,6 @@
 # BitFlagsJs
 
-자바스크립트에서 비트 플래그를 쉽게 관리할 수 있는 라이브러리입니다.
+JavaScript와 TypeScript에서 비트 플래그를 쉽게 관리할 수 있는 가벼운 라이브러리입니다.
 
 [![NPM Version](https://img.shields.io/npm/v/bitflagsjs.svg)](https://www.npmjs.com/package/bitflagsjs)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -15,20 +15,34 @@ yarn add bitflagsjs
 
 ## 주요 기능
 
-BitFlagsJs는 자바스크립트에서 비트 플래그 관련 작업을 단순화합니다:
-- 32비트 정수 배열을 사용한 비트 플래그 관리
-- 비트 설정, 해제, 확인을 위한 간단한 API
-- 32비트 경계를 초과하는 인덱스 자동 처리
+BitFlagsJs는 JavaScript와 TypeScript에서 비트 플래그 조작을 단순화합니다:
+- 32비트 정수 배열을 사용하여 비트 플래그 관리
+- 비트를 설정, 해제 및 확인하기 위한 간단한 API
+- 32비트 경계를 넘어서는 인덱스의 자동 처리
+- 완전한 타입 정의가 포함된 TypeScript 지원
 
-## 사용 방법
+## 사용법
 
-### 임포트하기
+### 가져오기
 
 ```javascript
+// ES 모듈
 import BitFlags from 'bitflagsjs';
 
 // CommonJS
 // const BitFlags = require('bitflagsjs').default;
+```
+
+### TypeScript 사용법
+
+```typescript
+import BitFlags from 'bitflagsjs';
+
+// 타입 안전한 비트 플래그
+const flags = new BitFlags();
+flags.set(10);
+const isSet: boolean = flags.is(10);
+const flagArray: number[] = flags.get();
 ```
 
 ### 인스턴스 생성
