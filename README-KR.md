@@ -101,6 +101,77 @@ bitFlags.unset(0); // [0x00000010]
 bitFlags.unset(1); // [0x00000000]
 ```
 
+#### clear()
+
+모든 비트 플래그를 초기화하여 배열을 초기 상태로 되돌립니다.
+
+```javascript
+const bitFlags = new BitFlags([15, 7]); // [0x0000000f, 0x00000007]
+bitFlags.clear(); // [0x00000000]
+console.log(bitFlags.get()); // [0]
+```
+
+#### count()
+
+비트 플래그 배열에서 설정된 비트의 개수를 반환합니다.
+
+```javascript
+const bitFlags = new BitFlags([3]); // [0x00000011] (2개 비트 설정됨)
+console.log(bitFlags.count()); // 2
+
+bitFlags.set(4); // [0x00010011] (3개 비트 설정됨)
+console.log(bitFlags.count()); // 3
+```
+
+#### 비트 연산
+
+BitFlagsJs는 두 BitFlags 인스턴스 간의 비트 연산을 지원합니다:
+
+##### and(other)
+
+현재 인스턴스와 다른 BitFlags 인스턴스 모두에서 설정된 비트를 가진 새 BitFlags 인스턴스를 반환합니다 (AND 연산).
+
+```javascript
+const flags1 = new BitFlags([5]); // [0x00000101]
+const flags2 = new BitFlags([3]); // [0x00000011]
+const result = flags1.and(flags2); // [0x00000001]
+console.log(result.get()); // [1]
+```
+
+##### or(other)
+
+현재 인스턴스 또는 다른 BitFlags 인스턴스 중 하나라도 설정된 비트를 가진 새 BitFlags 인스턴스를 반환합니다 (OR 연산).
+
+```javascript
+const flags1 = new BitFlags([5]); // [0x00000101]
+const flags2 = new BitFlags([3]); // [0x00000011]
+const result = flags1.or(flags2); // [0x00000111]
+console.log(result.get()); // [7]
+```
+
+##### xor(other)
+
+현재 인스턴스 또는 다른 BitFlags 인스턴스 중 하나에만 설정된 비트를 가진 새 BitFlags 인스턴스를 반환합니다 (XOR 연산).
+
+```javascript
+const flags1 = new BitFlags([5]); // [0x00000101]
+const flags2 = new BitFlags([3]); // [0x00000011]
+const result = flags1.xor(flags2); // [0x00000110]
+console.log(result.get()); // [6]
+```
+
+##### not()
+
+모든 비트가 반전된 새 BitFlags 인스턴스를 반환합니다 (NOT 연산).
+
+```javascript
+const flags = new BitFlags([5]); // [0x00000101]
+const result = flags.not(); // [0xfffffffa]
+console.log(result.is(0)); // false
+console.log(result.is(1)); // true
+console.log(result.is(2)); // true
+```
+
 ## 예제: 사용자 권한 관리
 
 ```javascript
@@ -161,4 +232,4 @@ BitFlagsJs는 32비트 정수 배열을 사용하여 비트 플래그를 관리�
 ## 문의하기
 
 - 이슈: [GitHub Issues](https://github.com/zerodice0/bitFlagsJs/issues)
-- 저자: [zerodice0](https://github.com/zerodice0) 
+- 저자: [zerodice0](https://github.com/zerodice0)

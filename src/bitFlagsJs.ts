@@ -69,4 +69,79 @@ export default class BitFlags {
     this.flags[arrayIndex] &= ~(1 << bitsIndex);
     return (this.flags[arrayIndex] & (1 << bitsIndex)) !== 0;
   }
-} 
+
+  /**
+   * Clears all bit flags.
+   */
+  clear = (): void => {
+    this.flags = [0];
+  }
+
+  /**
+   * Returns the number of bits set in the bit flag array.
+   * @returns Number of bits set
+   */
+  count = (): number => {
+    return this.flags.reduce((acc, curr) => acc + curr.toString(2).replace(/0/g, '').length, 0);
+  }
+
+  /**
+   * Returns a new BitFlags instance with the bit flags that are set in both this and the other BitFlags instance.
+   * @param other The other BitFlags instance to compare with
+   * @returns A new BitFlags instance with the bit flags that are set in both this and the other BitFlags instance
+   */
+  and = (other: BitFlags): BitFlags => {
+    const result = new Array(Math.max(this.flags.length, other.flags.length)).fill(0);
+    
+    for (let i = 0; i < result.length; i++) {
+      const thisValue = i < this.flags.length ? this.flags[i] : 0;
+      const otherValue = i < other.flags.length ? other.flags[i] : 0;
+      result[i] = thisValue & otherValue;
+    }
+    
+    return new BitFlags(result);
+  }
+
+  /**
+   * Returns a new BitFlags instance with the bit flags that are set in either this or the other BitFlags instance.
+   * @param other The other BitFlags instance to compare with
+   * @returns A new BitFlags instance with the bit flags that are set in either this or the other BitFlags instance
+   */
+  or = (other: BitFlags): BitFlags => {
+    const result = new Array(Math.max(this.flags.length, other.flags.length)).fill(0);
+    
+    for (let i = 0; i < result.length; i++) {
+      const thisValue = i < this.flags.length ? this.flags[i] : 0;
+      const otherValue = i < other.flags.length ? other.flags[i] : 0;
+      result[i] = thisValue | otherValue;
+    }
+    
+    return new BitFlags(result);
+  }
+
+  /**
+   * Returns a new BitFlags instance with the bit flags that are set in either this or the other BitFlags instance, but not in both.
+   * @param other The other BitFlags instance to compare with
+   * @returns A new BitFlags instance with the bit flags that are set in either this or the other BitFlags instance, but not in both
+   */
+  xor = (other: BitFlags): BitFlags => {
+    const result = new Array(Math.max(this.flags.length, other.flags.length)).fill(0);
+    
+    for (let i = 0; i < result.length; i++) {
+      const thisValue = i < this.flags.length ? this.flags[i] : 0;
+      const otherValue = i < other.flags.length ? other.flags[i] : 0;
+      result[i] = thisValue ^ otherValue;
+    }
+    
+    return new BitFlags(result);
+  }
+
+  /**
+   * Returns a new BitFlags instance with all bits flipped.
+   * @returns A new BitFlags instance with all bits flipped
+   */
+  not = (): BitFlags => {
+    const result = this.flags.map(flag => ~flag);
+    return new BitFlags(result);
+  }
+}

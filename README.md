@@ -102,6 +102,77 @@ bitFlags.unset(0); // [0x00000010]
 bitFlags.unset(1); // [0x00000000]
 ```
 
+#### clear()
+
+Clears all bit flags, resetting the array to its initial state.
+
+```javascript
+const bitFlags = new BitFlags([15, 7]); // [0x0000000f, 0x00000007]
+bitFlags.clear(); // [0x00000000]
+console.log(bitFlags.get()); // [0]
+```
+
+#### count()
+
+Returns the number of bits set in the bit flag array.
+
+```javascript
+const bitFlags = new BitFlags([3]); // [0x00000011] (2 bits set)
+console.log(bitFlags.count()); // 2
+
+bitFlags.set(4); // [0x00010011] (3 bits set)
+console.log(bitFlags.count()); // 3
+```
+
+#### Bitwise Operations
+
+BitFlagsJs supports bitwise operations between two BitFlags instances:
+
+##### and(other)
+
+Returns a new BitFlags instance with the bit flags that are set in both this and the other BitFlags instance.
+
+```javascript
+const flags1 = new BitFlags([5]); // [0x00000101]
+const flags2 = new BitFlags([3]); // [0x00000011]
+const result = flags1.and(flags2); // [0x00000001]
+console.log(result.get()); // [1]
+```
+
+##### or(other)
+
+Returns a new BitFlags instance with the bit flags that are set in either this or the other BitFlags instance.
+
+```javascript
+const flags1 = new BitFlags([5]); // [0x00000101]
+const flags2 = new BitFlags([3]); // [0x00000011]
+const result = flags1.or(flags2); // [0x00000111]
+console.log(result.get()); // [7]
+```
+
+##### xor(other)
+
+Returns a new BitFlags instance with the bit flags that are set in either this or the other BitFlags instance, but not in both.
+
+```javascript
+const flags1 = new BitFlags([5]); // [0x00000101]
+const flags2 = new BitFlags([3]); // [0x00000011]
+const result = flags1.xor(flags2); // [0x00000110]
+console.log(result.get()); // [6]
+```
+
+##### not()
+
+Returns a new BitFlags instance with all bits flipped.
+
+```javascript
+const flags = new BitFlags([5]); // [0x00000101]
+const result = flags.not(); // [0xfffffffa]
+console.log(result.is(0)); // false
+console.log(result.is(1)); // true
+console.log(result.is(2)); // true
+```
+
 ## Example: User Permissions
 
 ```javascript
