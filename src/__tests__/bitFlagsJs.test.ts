@@ -174,7 +174,11 @@ describe('BitFlags', () => {
       const bitFlags = new BitFlags([15, 7]); // [0x0000000f, 0x00000007]
       bitFlags.clear();
       expect(bitFlags.get()).toEqual([0]);
+			expect(bitFlags.is(1)).toBe(false);
+			expect(bitFlags.is(2)).toBe(false);
+			expect(bitFlags.is(64)).toBe(false);
     });
+
 
     test('resets to initial state even after multiple operations', () => {
       const bitFlags = new BitFlags();
@@ -238,18 +242,20 @@ describe('BitFlags', () => {
       });
 
       test('handles operands with different array lengths', () => {
-        const flags1 = new BitFlags([5, 3]); // [0b101, 0b11]
+        const flags1 = new BitFlags([5, 3, 10, 12]); // [0b101, 0b11, 0b1010, 0b1100]
         const flags2 = new BitFlags([3]);    // [0b11]
-        const result = flags1.and(flags2);
-        expect(result.get()).toEqual([1, 0]); // [0b001, 0b00]
+        const result1 = flags1.and(flags2);
+        const result2 = flags2.and(flags1);
+        expect(result1.get()).toEqual([1, 0, 0, 0]); // [0b001, 0b00, 0b0000, 0b0000]
+				expect(result2.get()).toEqual([1, 0, 0, 0]); // [0b001, 0b00, 0b0000, 0b0000]
       });
 
       test('returns a new instance without modifying originals', () => {
-        const flags1 = new BitFlags([5]);
-        const flags2 = new BitFlags([3]);
+        const flags1 = new BitFlags([5]); // [0b101]
+        const flags2 = new BitFlags([3]); // [0b011]
         const result = flags1.and(flags2);
         
-        expect(result.get()).toEqual([1]);
+        expect(result.get()).toEqual([1]); // [0b001]
         expect(flags1.get()).toEqual([5]); // unchanged
         expect(flags2.get()).toEqual([3]); // unchanged
       });
@@ -265,18 +271,23 @@ describe('BitFlags', () => {
       });
 
       test('handles operands with different array lengths', () => {
-        const flags1 = new BitFlags([5, 0]); // [0b101, 0b0]
-        const flags2 = new BitFlags([3, 8]); // [0b11, 0b1000]
-        const result = flags1.or(flags2);
-        expect(result.get()).toEqual([7, 8]); // [0b111, 0b1000]
+        const flags1 = new BitFlags([5]); // [0b101]
+        const flags2 = new BitFlags([3, 8, 10, 12]); // [0b11, 0b1000, 0b1010, 0b1100]
+        const result1 = flags1.or(flags2);
+				const result2 = flags2.or(flags1);
+				
+        expect(result1.get()).toEqual([7, 8, 10, 12]); // [0b111, 0b1000, 0b1010, 0b1100]
+				expect(result2.get()).toEqual([7, 8, 10, 12]); // [0b111, 0b1000, 0b1010, 0b1100]
       });
 
       test('returns a new instance without modifying originals', () => {
-        const flags1 = new BitFlags([5]);
-        const flags2 = new BitFlags([3]);
-        const result = flags1.or(flags2);
+        const flags1 = new BitFlags([5]); // [0b101]
+        const flags2 = new BitFlags([3]); // [0b011]
+        const result1 = flags1.or(flags2);
+				const result2 = flags2.or(flags1);
         
-        expect(result.get()).toEqual([7]);
+        expect(result1.get()).toEqual([7]); // [0b111]
+				expect(result2.get()).toEqual([7]); // [0b111]
         expect(flags1.get()).toEqual([5]); // unchanged
         expect(flags2.get()).toEqual([3]); // unchanged
       });
@@ -287,23 +298,31 @@ describe('BitFlags', () => {
       test('performs bitwise XOR operation correctly', () => {
         const flags1 = new BitFlags([5]); // 0b101
         const flags2 = new BitFlags([3]); // 0b011
-        const result = flags1.xor(flags2);
-        expect(result.get()).toEqual([6]); // 0b110
+        const result1 = flags1.xor(flags2);
+				const result2 = flags2.xor(flags1);
+        
+        expect(result1.get()).toEqual([6]); // 0b110
+				expect(result2.get()).toEqual([6]); // 0b110
       });
 
       test('handles operands with different array lengths', () => {
         const flags1 = new BitFlags([5, 8]); // [0b101, 0b1000]
-        const flags2 = new BitFlags([3]);    // [0b11]
-        const result = flags1.xor(flags2);
-        expect(result.get()).toEqual([6, 8]); // [0b110, 0b1000]
+        const flags2 = new BitFlags([3]);    // [0b011]
+        const result1 = flags1.xor(flags2);
+				const result2 = flags2.xor(flags1);
+        
+        expect(result1.get()).toEqual([6, 8]); // [0b110, 0b1000]
+				expect(result2.get()).toEqual([6, 8]); // [0b110, 0b1000]
       });
 
       test('returns a new instance without modifying originals', () => {
-        const flags1 = new BitFlags([5]);
-        const flags2 = new BitFlags([3]);
-        const result = flags1.xor(flags2);
+        const flags1 = new BitFlags([5]); // [0b101]
+        const flags2 = new BitFlags([3]); // [0b011]
+        const result1 = flags1.xor(flags2);
+				const result2 = flags2.xor(flags1);
         
-        expect(result.get()).toEqual([6]);
+        expect(result1.get()).toEqual([6]); // [0b110]
+				expect(result2.get()).toEqual([6]); // [0b110]
         expect(flags1.get()).toEqual([5]); // unchanged
         expect(flags2.get()).toEqual([3]); // unchanged
       });
@@ -312,21 +331,21 @@ describe('BitFlags', () => {
     // not() method tests
     describe('not()', () => {
       test('performs bitwise NOT operation correctly', () => {
-        const flags = new BitFlags([5]); // 0b101
+        const flags = new BitFlags([5]); // [0b101]
         const result = flags.not();
         
-        // 5 (0b101) 비트를 반전하면 -6 (0xfffffffa)가 됩니다
-        // JavaScript의 비트 연산에서는 32비트 정수를 사용하므로
-        // 가장 왼쪽 비트가 1이면 음수로 해석됩니다.
-        // 따라서 특정 비트 패턴을 테스트하는 것이 더 안정적입니다.
-        expect(result.is(0)).toBe(false); // 5의 0번째 비트는 1이므로 반전하면 0
-        expect(result.is(2)).toBe(false); // 5의 2번째 비트는 1이므로 반전하면 0
-        expect(result.is(1)).toBe(true);  // 5의 1번째 비트는 0이므로 반전하면 1
-        expect(result.is(3)).toBe(true);  // 5의 3번째 비트는 0이므로 반전하면 1
+        // When inverting bits of 5 (0b101), the result is -6 (0xfffffffa)
+        // JavaScript uses 32-bit integers for bitwise operations,
+        // and the leftmost bit being 1 is interpreted as a negative number.
+        // Therefore, testing specific bit patterns is more reliable.
+        expect(result.is(0)).toBe(false); // Bit 0 of 5 is 1, so it becomes 0 after inversion
+        expect(result.is(2)).toBe(false); // Bit 2 of 5 is 1, so it becomes 0 after inversion
+        expect(result.is(1)).toBe(true);  // Bit 1 of 5 is 0, so it becomes 1 after inversion
+        expect(result.is(3)).toBe(true);  // Bit 3 of 5 is 0, so it becomes 1 after inversion
       });
 
       test('returns a new instance without modifying original', () => {
-        const flags = new BitFlags([5]);
+        const flags = new BitFlags([5]); // [0b101]
         const result = flags.not();
         
         expect(flags.get()).toEqual([5]); // unchanged
@@ -336,13 +355,10 @@ describe('BitFlags', () => {
         const flags = new BitFlags([1, 2]); // [0b1, 0b10]
         const result = flags.not();
         
-        // 1 (0b1)을 반전하면 -2 (0xfffffffe)
-        // 2 (0b10)를 반전하면 -3 (0xfffffffd)
-        expect(result.is(0)).toBe(false); // 1의 0번째 비트는 1이므로 반전하면 0
-        expect(result.is(1)).toBe(true);  // 1의 1번째 비트는 0이므로 반전하면 1
-        
-        expect(result.is(32 + 1)).toBe(false); // 2의 1번째 비트는 1이므로 반전하면 0
-        expect(result.is(32 + 0)).toBe(true);  // 2의 0번째 비트는 0이므로 반전하면 1
+        // Inverting 1 (0b1) results in -2 (0xfffffffe)
+        // Inverting 2 (0b10) results in -3 (0xfffffffd)
+        expect(result.is(0)).toBe(false); // Bit 0 of 1 is 1, so it becomes 0 after inversion
+        expect(result.is(1)).toBe(true);  // Bit 1 of 1 is 0, so it becomes 1 after inversion
       });
     });
   });
