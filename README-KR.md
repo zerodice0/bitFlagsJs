@@ -1,5 +1,5 @@
+![Main](./main.png)
 # BitFlagsJs
-
 JavaScript와 TypeScript에서 비트 플래그를 쉽게 관리할 수 있는 가벼운 라이브러리입니다.
 
 [![NPM Version](https://img.shields.io/npm/v/bitflagsjs.svg)](https://www.npmjs.com/package/bitflagsjs)

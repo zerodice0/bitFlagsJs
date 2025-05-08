@@ -1,5 +1,6 @@
-# BitFlagsJs
+![Main](./main.png)
 
+# BitFlagsJs
 A lightweight library for easy bit flag management in JavaScript and TypeScript.
 
 [![NPM Version](https://img.shields.io/npm/v/bitflagsjs.svg)](https://www.npmjs.com/package/bitflagsjs)
