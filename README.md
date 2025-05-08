@@ -1,7 +1,7 @@
 ![Main](./main.png)
 
 # BitFlagsJs
-A lightweight library for easy bit flag management in JavaScript and TypeScript.
+A lightweight library for easy bit flag management in JavaScript and TypeScript. BitFlagsJs is a simple implementation of a BitArray, providing an efficient way to handle bit flags with a minimal API.
 
 [![NPM Version](https://img.shields.io/npm/v/bitflagsjs.svg)](https://www.npmjs.com/package/bitflagsjs)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -17,6 +17,7 @@ yarn add bitflagsjs
 ## Key Features
 
 BitFlagsJs simplifies bit flag operations in JavaScript and TypeScript:
+- Simple BitArray implementation with minimal overhead
 - Manage bit flags using arrays of 32-bit integers
 - Simple API for setting, unsetting, and checking bits
 - Automatic handling of indices beyond 32-bit boundaries
