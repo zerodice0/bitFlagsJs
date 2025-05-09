@@ -1,4 +1,4 @@
-![Main](./main.png)
+![Main](./images/main.png)
 # BitFlagsJs
 JavaScript와 TypeScript에서 비트 플래그를 쉽게 관리할 수 있는 가벼운 라이브러리입니다. BitFlagsJs는 BitArray를 간단하게 구현한 패키지로, 최소한의 API로 비트 플래그를 효율적으로 처리할 수 있습니다.
 
