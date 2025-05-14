@@ -82,7 +82,16 @@ export default class BitFlags {
    * @returns Number of bits set
    */
   count = (): number => {
-    return this.flags.reduce((acc, curr) => acc + curr.toString(2).replace(/0/g, '').length, 0);
+    function popcount(v: number): number { // HAKMEM style popcount
+      v = v - ((v >> 1) & 0x55555555);
+      v = (v & 0x33333333) + ((v >> 2) & 0x33333333);
+      v = (v + (v >> 4)) & 0x0F0F0F0F;
+      v = v + (v >> 8);
+      v = v + (v >> 16);
+      return v & 0x3F;
+    }
+    
+    return this.flags.reduce((acc, curr) => acc + popcount(curr), 0);
   }
 
   /**
